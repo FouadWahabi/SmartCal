@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 512M
+  instances: 1
+  domain: eu-gb.mybluemix.net
+  name: SmartCal
+  host: smartcal
+  disk_quota: 1024M
+  services:
+  - SmartCal-AdvancedMobileAccess
+  - SmartCal-imfpush
+  - SmartCal-cloudantNoSQLDB
