@@ -32,8 +32,8 @@
     "dataSource": "db",
     "public": false
   },
-  "Item": {
-    "dataSource": "db",
+  "Task": {
+    "dataSource": "smartcaldb",
     "public": true,
     "$promise": {},
     "$resolved": true

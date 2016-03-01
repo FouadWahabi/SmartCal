@@ -2,5 +2,12 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "smartcaldb": {
+    "database": "smartcaldb",
+    "username": "505614c7-3822-4410-b20f-0edb93d6b022-bluemix",
+    "password": "941d7dc50553e0ddae1fea8b17a4cd51ad793d3b17a9e808d93288f028e38ff8",
+    "name": "smartcaldb",
+    "connector": "cloudant"
   }
 }
