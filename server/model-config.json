@@ -14,22 +14,22 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "smartcaldb"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "smartcaldb",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "smartcaldb",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "smartcaldb",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "smartcaldb",
     "public": false
   },
   "Task": {
