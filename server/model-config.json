@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "smartcaldb"
+    "dataSource": "smartcaldb",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "smartcaldb",
@@ -32,7 +33,13 @@
     "dataSource": "smartcaldb",
     "public": false
   },
-  "Task": {
+  "user": {
+    "dataSource": "smartcaldb",
+    "public": true,
+    "$promise": {},
+    "$resolved": true
+  },
+  "task": {
     "dataSource": "smartcaldb",
     "public": true,
     "$promise": {},

@@ -1,0 +1,23 @@
+{
+  "name": "user",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "username": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tasks": {
+      "type": "hasMany",
+      "model": "task",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
