@@ -12,7 +12,7 @@ var app = module.exports = loopback();
 var passport = require('passport');
 
 // Get the MCA passport strategy to use
-// var MCABackendStrategy = require('bms-mca-token-validation-strategy').MCABackendStrategy;
+var MCABackendStrategy = require('bms-mca-token-validation-strategy').MCABackendStrategy;
 
 // Tell passport to use the MCA strategy
 // passport.use(new MCABackendStrategy())
@@ -20,8 +20,11 @@ var passport = require('passport');
 // Tell application to use passport
 app.use(passport.initialize());
 
-// Protect DELETE endpoint so it can only be accessed by HelloTodo mobile samples
-// app.delete('/api/Items/:id', passport.authenticate('mca-backend-strategy', {session: false}));
+// Protect service with mobile client access
+app.get('/', passport.authenticate('mca-backend-strategy', {session: false}));
+app.post('/', passport.authenticate('mca-backend-strategy', {session: false}));
+app.put('/', passport.authenticate('mca-backend-strategy', {session: false}));
+app.delete('/', passport.authenticate('mca-backend-strategy', {session: false}));
 
 // Protect /protected endpoint which is used in Getting Started with Bluemix Mobile Services tutorials
 // app.get('/protected', passport.authenticate('mca-backend-strategy', {session: false}), function(req, res){
