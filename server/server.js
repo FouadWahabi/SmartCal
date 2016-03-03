@@ -15,7 +15,7 @@ var passport = require('passport');
 var MCABackendStrategy = require('bms-mca-token-validation-strategy').MCABackendStrategy;
 
 // Tell passport to use the MCA strategy
-// passport.use(new MCABackendStrategy())
+passport.use(new MCABackendStrategy())
 
 // Tell application to use passport
 app.use(passport.initialize());
