@@ -21,10 +21,10 @@ var MCABackendStrategy = require('bms-mca-token-validation-strategy').MCABackend
 app.use(passport.initialize());
 
 // Protect service with mobile client access
-app.get('/', passport.authenticate('mca-backend-strategy', {session: false}));
-app.post('/', passport.authenticate('mca-backend-strategy', {session: false}));
-app.put('/', passport.authenticate('mca-backend-strategy', {session: false}));
-app.delete('/', passport.authenticate('mca-backend-strategy', {session: false}));
+app.get('/**', passport.authenticate('mca-backend-strategy', {session: false}));
+app.post('/**', passport.authenticate('mca-backend-strategy', {session: false}));
+app.put('/**', passport.authenticate('mca-backend-strategy', {session: false}));
+app.delete('/**', passport.authenticate('mca-backend-strategy', {session: false}));
 
 // Protect /protected endpoint which is used in Getting Started with Bluemix Mobile Services tutorials
 // app.get('/protected', passport.authenticate('mca-backend-strategy', {session: false}), function(req, res){
