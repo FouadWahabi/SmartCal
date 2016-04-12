@@ -5,8 +5,8 @@
   },
   "smartcaldb": {
     "database": "smartcaldb",
-    "username": "505614c7-3822-4410-b20f-0edb93d6b022-bluemix",
-    "password": "941d7dc50553e0ddae1fea8b17a4cd51ad793d3b17a9e808d93288f028e38ff8",
+    "username": "cccbbe2c-cdb1-480e-aaba-8175475236a5-bluemix",
+    "password": "9072688f22d7f0c0139daa21f61bd96dfa1c7ffa60dd273da1e01dcae2b23a47",
     "name": "smartcaldb",
     "connector": "cloudant"
   }
