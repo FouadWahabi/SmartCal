@@ -7,8 +7,14 @@
     "validateUpsert": true
   },
   "properties": {
-    "label": {
+    "ownerId": {
       "type": "string"
+    },
+    "schemaId": {
+      "type": "string"
+    },
+    "vars": {
+      "type": "object"
     }
   },
   "validations": [],
@@ -17,6 +23,11 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "ownerId"
+    },
+    "schema": {
+      "type": "belongsTo",
+      "model": "taskschema",
+      "foreignKey": "schemaId"
     }
   },
   "acls": [
@@ -55,12 +66,6 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "deleteTask"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "updateTask"
     }
   ],
   "methods": {}

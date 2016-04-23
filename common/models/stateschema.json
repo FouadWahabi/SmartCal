@@ -1,0 +1,26 @@
+{
+  "name": "stateschema",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "states": {
+      "type": "hasMany",
+      "model": "state",
+      "foreignKey": "stateschemaId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getStateSchema"
+    }
+  ],
+  "methods": {}
+}

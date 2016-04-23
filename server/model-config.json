@@ -44,5 +44,45 @@
     "public": true,
     "$promise": {},
     "$resolved": true
+  },
+  "taskschema": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "state": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "context": {
+    "dataSource": "smartcaldb",
+    "public": false
+  },
+  "scheduler": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "stateschema": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "action": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "actionschema": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "adapter": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "configschema": {
+    "dataSource": "smartcaldb",
+    "public": true
+  },
+  "config": {
+    "dataSource": "smartcaldb",
+    "public": true
   }
 }

@@ -1,0 +1,29 @@
+{
+  "name": "adapter",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "func": {
+      "type": "object"
+    },
+    "schemaFromId": {
+      "type": "string"
+    },
+    "schemaToId": {
+      "type": "string"
+    },
+    "loss": {
+      "type": "number"
+    },
+    "complexity": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -5,19 +5,62 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {
-    "username": {
-      "type": "string"
-    }
-  },
+  "properties": {},
   "validations": [],
   "relations": {
     "tasks": {
       "type": "hasMany",
       "model": "task",
       "foreignKey": "ownerId"
+    },
+    "states": {
+      "type": "hasMany",
+      "model": "state",
+      "foreignKey": "stateId"
+    },
+    "context": {
+      "type": "belongsTo",
+      "model": "context",
+      "foreignKey": "contextId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "signup"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "signin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "signout"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "setScheduler"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getScheduler"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getCurrentState"
+    }
+  ],
   "methods": {}
 }

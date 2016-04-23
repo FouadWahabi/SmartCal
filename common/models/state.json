@@ -1,0 +1,36 @@
+{
+  "name": "state",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId"
+    },
+    "schema": {
+      "type": "belongsTo",
+      "model": "stateschema",
+      "foreignKey": "schemaId"
+    },
+    "context": {
+      "type": "belongsTo",
+      "model": "context",
+      "foreignKey": "contextId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "insertState"
+    }
+  ],
+  "methods": {}
+}

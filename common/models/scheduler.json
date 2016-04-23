@@ -1,0 +1,46 @@
+{
+  "name": "scheduler",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "contexts": {
+      "type": "hasMany",
+      "model": "context",
+      "foreignKey": "contextId"
+    },
+    "stateschema": {
+      "type": "belongsTo",
+      "model": "stateschema",
+      "foreignKey": "stateschemaId"
+    },
+    "taskschema": {
+      "type": "belongsTo",
+      "model": "taskschema",
+      "foreignKey": "taskschemaId"
+    },
+    "actionschema": {
+      "type": "belongsTo",
+      "model": "actionschema",
+      "foreignKey": "actionschemaId"
+    },
+    "configschema": {
+      "type": "belongsTo",
+      "model": "configschema",
+      "foreignKey": "configschemaId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

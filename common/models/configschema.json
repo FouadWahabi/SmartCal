@@ -1,0 +1,24 @@
+{
+  "name": "configschema",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "configs": {
+      "type": "hasMany",
+      "model": "config",
+      "foreignKey": "configschemaId"
+    },
+    "scheduler": {
+      "type": "belongsTo",
+      "model": "scheduler",
+      "foreignKey": "schedulerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

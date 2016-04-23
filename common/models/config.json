@@ -1,0 +1,29 @@
+{
+  "name": "config",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId"
+    },
+    "schema": {
+      "type": "belongsTo",
+      "model": "configschema",
+      "foreignKey": "schemaId"
+    },
+    "context": {
+      "type": "belongsTo",
+      "model": "context",
+      "foreignKey": "contextId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

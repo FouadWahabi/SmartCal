@@ -1,0 +1,44 @@
+{
+  "name": "context",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "schedulerId": {
+      "type": "string"
+    },
+    "stateId": {
+      "type": "string"
+    },
+    "configId": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId"
+    },
+    "state": {
+      "type": "belongsTo",
+      "model": "state",
+      "foreignKey": "stateId"
+    },
+    "scheduler": {
+      "type": "belongsTo",
+      "model": "scheduler",
+      "foreignKey": "schedulerId"
+    },
+    "config": {
+      "type": "belongsTo",
+      "model": "config",
+      "foreignKey": "configId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

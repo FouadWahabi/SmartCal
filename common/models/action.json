@@ -1,0 +1,47 @@
+{
+  "name": "action",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "startStateId": {
+      "type": "string"
+    },
+    "endStateId": {
+      "type": "string"
+    },
+    "taskId": {
+      "type": "string"
+    },
+    "vars": {
+      "type": "object"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "start": {
+      "type": "belongsTo",
+      "model": "state",
+      "foreignKey": "startStateId"
+    },
+    "end": {
+      "type": "belongsTo",
+      "model": "state",
+      "foreignKey": "endStateId"
+    },
+    "task": {
+      "type": "belongsTo",
+      "model": "task",
+      "foreignKey": "taskId"
+    },
+    "schema": {
+      "type": "belongsTo",
+      "model": "actionschema",
+      "foreignKey": "schemaId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
