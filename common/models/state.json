@@ -15,7 +15,7 @@
     },
     "schema": {
       "type": "belongsTo",
-      "model": "stateschema",
+      "model": "schema",
       "foreignKey": "schemaId"
     },
     "context": {
@@ -25,6 +25,12 @@
     }
   },
   "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
     {
       "principalType": "ROLE",
       "principalId": "$authenticated",

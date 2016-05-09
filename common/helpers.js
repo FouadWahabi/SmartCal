@@ -79,7 +79,7 @@ function Graph(){
 
   this.addEdge = function(u, v, adapter){
     if(this.vertices[u] === undefined) {
-      this.vertices[name] = {};
+      this.vertices[u] = {};
     }
     if(
       this.vertices[u][v] === undefined ||
@@ -142,14 +142,17 @@ function Graph(){
   }
 
   // ==== Cosntants =====
+  module.exports.AGENT_NOT_FOUND = {status: 404, message : 'Agent not found', code: 'NOT_FOUND'};
   module.exports.TASK_NOT_FOUND = {status: 404, message : 'Task not found', code: 'NOT_FOUND'};
   module.exports.CONTEXT_NOT_FOUND = {status: 404, message : 'Context not found', code: 'NOT_FOUND'};
   module.exports.USER_NOT_FOUND = {status: 404, message : 'User not found', code: 'NOT_FOUND'};
   module.exports.STATE_NOT_FOUND = {status: 404, message : 'State not found', code: 'NOT_FOUND'};
-  module.exports.TASK_SCHEMA_NOT_FOUND = {status: 404, message : 'TaskSchema not found', code: 'NOT_FOUND'};
-  module.exports.CONFIG_NOT_FOUND = {status: 404, message : 'State not found', code: 'NOT_FOUND'};
-  module.exports.CONFIG_SCHEMA_NOT_FOUND = {status: 404, message : 'TaskSchema not found', code: 'NOT_FOUND'};
-  module.exports.STATE_SCHEMA_NOT_FOUND = {status: 404, message : 'StateSchema not found', code: 'NOT_FOUND'};
+  module.exports.SCHEMA_NOT_FOUND = {status: 404, message : 'Schema not found', code: 'NOT_FOUND'};
+  module.exports.TASK_SCHEMA_NOT_FOUND = {status: 404, message : 'Task Schema not found', code: 'NOT_FOUND'};
+  module.exports.ACTION_SCHEMA_NOT_FOUND = {status: 404, message : 'Action Schema not found', code: 'NOT_FOUND'};
+  module.exports.STATE_SCHEMA_NOT_FOUND = {status: 404, message : 'Action Schema not found', code: 'NOT_FOUND'};
+  module.exports.LAYOUT_SCHEMA_NOT_FOUND = {status: 404, message : 'Layout Schema not found', code: 'NOT_FOUND'};
+  module.exports.CONFIG_NOT_FOUND = {status: 404, message : 'Config not found', code: 'NOT_FOUND'};
   module.exports.SCHEDULER_NOT_FOUND = {status: 404, message : 'Scheduler not found', code: 'NOT_FOUND'};
   module.exports.ACTION_NOT_FOUND = {status: 404, message : 'Action not found', code: 'NOT_FOUND'};
   module.exports.ADAPTER_NOT_FOUND = {status: 404, message : 'Adpater not found', code: 'NOT_FOUND'};
@@ -158,7 +161,11 @@ function Graph(){
   module.exports.TASK_UPDATE_FAILED = {status: 400, message : 'Task update failed', code: 'BAD_REQUEST'};
   module.exports.STATE_INSERTION_FAILED = {status: 400, message : 'State insertion failed', code: 'BAD_REQUEST'};
   module.exports.ADAPTER_INSERTION_FAILED = {status: 400, message : 'Adapter insertion failed', code: 'BAD_REQUEST'};
-  module.exports.CANNOT_ADAPT = {status: 400, message : 'Object adapt failed', code: 'BAD_REQUEST'}
+  module.exports.SCHEDULER_INSERTION_FAILED = {status: 400, message : 'Scheduler insertion failed', code: 'BAD_REQUEST'};
+  module.exports.CANNOT_ADAPT = {status: 400, message : 'Object adapt failed', code: 'BAD_REQUEST'};
+  module.exports.INTERNAL_ERROR = {status: 500, message : 'Internal error', code: 'INTERNAL_ERROR'};
+  module.exports.SCHEDULER_NOT_RESPONDING = {status: 502, message : 'Scheduler not responding', code: 'Bad Gateway'};
+  module.exports.NOT_AUTHORIZED = {status: 403, message : 'Not authorized', code: 'NOT_AUTHORIZED'}
   // ================ chache ======
   module.exports.adapter_cache = {}
   module.exports.adapter_dijkstra = {}

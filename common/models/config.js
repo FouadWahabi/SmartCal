@@ -1,27 +1,31 @@
 var loopback = require('loopback');
-var Validator = require('schema-validator');
+var Validator = require('jsonschema').Validator;
 var helpers = require('../helpers.js');
 var app = require('../../server/server');
+var requestify = require('requestify');
 
 module.exports = function(Config) {
   // hinding all remote methods
   helpers.disableAllMethods(Config);
 
   // insert Config
-  Config.insertConfig = function(config, cb) {
+  Config.insertConfig = function(configVars, cb) {
     var ctx = loopback.getCurrentContext();
     // Get the current access token
     var accessToken = ctx.get('accessToken');
     // retrieve current Config schema
     app.models.Context.findOne({where: {ownerId: accessToken.userId}, include: ['scheduler']}, function(err, context) {
       if(context != null) {
-        app.models.configschema.findOne({where: {ConfigchemaId: context.scheduler().configchemaId}}, function(err, configschema) {
+        app.models.schema.findOne({where: {id: context.scheduler().configchemaId}}, function(err, configschema) {
           if(configschema != null) {
-            var validator = new Validator(configschema.schema);
-            var check = validator.check(config);
-            if(!check._error) {
-              Config.create({ownerId: accessToken.userId, configschemaId: configschema.id, vars: config}, function(err, config) {
+            var validator = new Validator();
+            var check = validator.validate(configVars, configschema.schema);
+            if(check.errors.length === 0) {
+              Config.create({ownerId: accessToken.userId, schemaId: configschema.id, vars: configVars}, function(err, config) {
+                // set current config
                 app.models.User.setCurrentConfig(config.id, cb);
+                var url = context.scheduler().path;
+                requestify.post(url + '/clients/setConfig', {userId: accessToken.userId, config: config.vars});
               });
             } else {
               cb(helpers.CONFIG_INSERTION_FAILED, {});

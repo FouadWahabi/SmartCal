@@ -23,7 +23,31 @@
     }
   },
   "validations": [],
-  "relations": {},
-  "acls": [],
+  "relations": {
+    "schemaFrom": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "schemaFromId"
+    },
+    "schemaTo": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "schemaToId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "insertAdapter"
+    }
+  ],
   "methods": {}
 }

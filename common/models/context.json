@@ -6,7 +6,13 @@
     "validateUpsert": true
   },
   "properties": {
+    "ownerId": {
+      "type": "string"
+    },
     "schedulerId": {
+      "type": "string"
+    },
+    "schedulerPass" :{
       "type": "string"
     },
     "stateId": {
@@ -39,6 +45,13 @@
       "foreignKey": "configId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
   "methods": {}
 }

@@ -38,10 +38,17 @@
     },
     "schema": {
       "type": "belongsTo",
-      "model": "actionschema",
+      "model": "schema",
       "foreignKey": "schemaId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
   "methods": {}
 }

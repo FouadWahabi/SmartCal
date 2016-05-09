@@ -11,6 +11,9 @@
     },
     "path": {
       "type": "string"
+    },
+    "layout": {
+      "type": "object"
     }
   },
   "validations": [],
@@ -22,25 +25,59 @@
     },
     "stateschema": {
       "type": "belongsTo",
-      "model": "stateschema",
+      "model": "schema",
       "foreignKey": "stateschemaId"
     },
     "taskschema": {
       "type": "belongsTo",
-      "model": "taskschema",
+      "model": "schema",
       "foreignKey": "taskschemaId"
     },
     "actionschema": {
       "type": "belongsTo",
-      "model": "actionschema",
+      "model": "schema",
       "foreignKey": "actionschemaId"
     },
     "configschema": {
       "type": "belongsTo",
-      "model": "configschema",
+      "model": "schema",
       "foreignKey": "configschemaId"
+    },
+    "scheduleschema": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "scheduleschemaId"
+    },
+    "schedulerlayoutschema": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "layout.schemaId"
+    },
+    "scheduleparamschema": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "scheduleparamschemaId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getSchedulers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "insertScheduler"
+    }
+  ],
   "methods": {}
 }

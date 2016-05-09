@@ -44,6 +44,22 @@ app.start = function () {
 		if (componentExplorer) {
 			console.log('Browse your REST API at %s%s', baseUrl, componentExplorer.mountPath);
 		}
+
+		// create admin user
+		app.models.User.findOrCreate({where:{email: 'admin@admin.com'}},{email: 'admin@admin.com', password: 'admin'}, function(err, admin) {
+	    //create the admin role
+	    app.models.Role.create({
+	      name: 'admin'
+	    }, function(err, role) {
+	      //make admin an admin
+	      role.principals.create({
+	        principalType: app.models.RoleMapping.USER,
+	        principalId: admin.id
+	      }, function(err, principal) {
+	      });
+	    });
+	  });
+
 		// setup dijkstra matrix
 		app.models.Adapter.getAdapters(function(err, adapters) {
 			var adapter_adj = {}

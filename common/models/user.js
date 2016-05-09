@@ -1,6 +1,9 @@
 var helpers = require('../helpers.js');
 var app = require('../../server/server');
 var loopback = require('loopback');
+var crypto = require('crypto');
+var requestify = require('requestify');
+var uuid = require('node-uuid');
 
 module.exports = function(User) {
   // hinding all remote methods
@@ -9,17 +12,21 @@ module.exports = function(User) {
   // signup method
   User.signup = function(user, cb) {
     User.create(user, function(err, user) {
-      var Context = app.models.Context;
+      if(!err) {
+        var Context = app.models.Context;
 
-      Context.create({ownerId: user.id, schedulerId: null, stateId: null, configId: null}, function(err, context) {
-        if(context != null) {
-          user.contextId = context.id;
-          user.save();
-          cb(null, user);
-        } else {
-          cb(helpers.USER_CREATION_FAILED, {});
-        }
-      });
+        Context.create({ownerId: user.id, schedulerId: null, schedulerPass: null, stateId: null, configId: null}, function(err, context) {
+          if(context != null) {
+            user.contextId = context.id;
+            user.save();
+            cb(null, user);
+          } else {
+            cb(helpers.USER_CREATION_FAILED, {});
+          }
+        });
+      } else  {
+        cb(helpers.USER_CREATION_FAILED, {});
+      }
     });
   }
 
@@ -66,11 +73,13 @@ module.exports = function(User) {
         var accessToken = ctx.get('accessToken');
         app.models.context.findOne({where: {ownerId: accessToken.userId}}, function(err, context) {
           if(context != null) {
-            if(context.ownerId === accessToken.userId) {
-              context.updateAttributes({schedulerId: schedulerId}, cb);
-            } else {
-              context.create({ownerId: accessToken.userId, schedulerId: schedulerId, stateId: null}, cb);
-            }
+            var url = scheduler.path;
+            // generate uuid
+            var schedulerPass = uuid.v4();
+            context.updateAttributes({schedulerId: schedulerId, schedulerPass: schedulerPass}, cb);
+            // send to scheduler
+            console.log("register client")
+            requestify.post(scheduler.path + '/clients/registerClient', {schedulerPass: schedulerPass, userId: accessToken.userId});
           } else {
             cb(helpers.CONTEXT_NOT_FOUND, {});
           }
@@ -178,8 +187,8 @@ module.exports = function(User) {
     var ctx = loopback.getCurrentContext();
     // Get the current access token
     var accessToken = ctx.get('accessToken');
-    app.models.config.findById(stateId, function(err, config) {
-      if(state != null) {
+    app.models.config.findById(configId, function(err, config) {
+      if(config != null) {
         // Get the current access token
         var accessToken = ctx.get('accessToken');
         app.models.context.findOne({where: {ownerId: accessToken.userId}}, function(err, context) {
@@ -230,6 +239,99 @@ module.exports = function(User) {
   User.remoteMethod('getCurrentConfig', {
     returns: {type: 'string', root: true},
     http: {path:'/getCurrentConfig', verb: 'get'}
+  })
+
+  User.getSchedule = function(agentId, hash, scheduleparam, cb) {
+    var ctx = loopback.getCurrentContext();
+    // Get the current access token
+    var accessToken = ctx.get('accessToken');
+    app.models.context.findOne({where: {ownerId: accessToken.userId}}, function(err, context) {
+      if(!err && context != null) {
+        shasum = crypto.createHash('sha1');
+        shasum.update(context.configId+context.schedulerId);
+        var response = {};
+        var newhash = shasum.digest('hex');
+        app.models.agent.findById(agentId, function(err, agent) {
+          if(!err && agent != null) {
+            app.models.scheduler.findById(context.schedulerId, function(err, scheduler) {
+              if(!err && scheduler != null) {
+                var getSchedule = function() {
+                  var url = scheduler.path;
+                  requestify.post(url + '/clients/getSchedule', {userId: accessToken.userId, scheduleparam: scheduleparam}).then(function (res) {
+                    var schedule = res.getBody();
+                    response.schedule = schedule;
+                    cb(null, response);
+                  });
+                  // TODO repair adaption
+                  //scheduleparam.schemaId = agent.scheduleparamschemaId;
+                  // app.models.Adapter.adaptObject(scheduleparam, scheduler.scheduleparamschemaId, function(err, scheduleparam) {
+                  //   if(!err && scheduleparam != null) {
+                  //     requestifyl.post(url + '/clients/getSchedule', scheduleparam).then(function (res) {
+                  //       var schedule = JSON.parse(res.getBody());
+                  //       schedule.schemaId = scheduler.scheduleschemaId;
+                  //       app.models.Adapter.adaptObject(schedule, agent.scheduleschemaId, function(err, schedule) {
+                  //         if(!err && schedule != null) {
+                  //           response.schedule = schedule;
+                  //           cb(null, response);
+                  //         } else {
+                  //           cb(helpers.CANNOT_ADAPT, {});
+                  //         }
+                  //       });
+                  //     }).catch(function(err) {
+                  //       cb(helpers.SCHEDULER_NOT_RESPONDING, {});
+                  //     });
+                  //   } else {
+                  //     cb(helpers.CANNOT_ADAPT, {});
+                  //   }
+                  // });
+                };
+                if(newhash != hash) {
+                  response.hash = newhash;
+                  app.models.config.findById(context.configId, function(err, config) {
+                    if(!err && config != null) {
+                      response.config = config;
+                      // TODO repair adaption
+                      getSchedule();
+                      // adapt
+                      // app.models.Adapter.adaptObject(scheduler.layout, agent.schedulerlayoutschemaId, function(err, layout) {
+                      //   if(!err && layout != null) {
+                      //     response.schedulerLayout = layout;
+                      //     // contact the scheduler to get schedule
+                      //     getSchedule();
+                      //   } else {
+                      //     cb(helpers.CANNOT_ADAPT, {});
+                      //   }
+                      // });
+                    } else {
+                      cb(helpers.CONFIG_NOT_FOUND, {});
+                    }
+                  });
+                } else {
+                  // contact the scheduler to get schedule
+                  getSchedule();
+                }
+              } else {
+                cb(helpers.SCHEDULER_NOT_FOUND, {});
+              }
+            });
+          } else {
+            cb(helpers.AGENT_NOT_FOUND, {});
+          }
+        });
+      } else {
+        cb(helpers.CONTEXT_NOT_FOUND, {});
+      }
+    });
+  }
+
+  User.remoteMethod('getSchedule', {
+    accepts: [
+      {arg: 'agentId', type: 'string'},
+      {arg: 'hash', type: 'string'},
+      {arg: 'scheduleparam', type: 'object'}
+    ],
+    returns: {type: 'string', root: true},
+    http: {path:'/getSchedule', verb: 'post'}
   })
 
 };

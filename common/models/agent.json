@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "agent",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -8,20 +8,20 @@
   "properties": {},
   "validations": [],
   "relations": {
-    "user": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "ownerId"
-    },
-    "schema": {
+    "scheduleschema": {
       "type": "belongsTo",
       "model": "schema",
-      "foreignKey": "schemaId"
+      "foreignKey": "scheduleschemaId"
     },
-    "context": {
+    "schedulerlayoutschema": {
       "type": "belongsTo",
-      "model": "context",
-      "foreignKey": "contextId"
+      "model": "schema",
+      "foreignKey": "schedulerlayoutschemaId"
+    },
+    "scheduleparamschema": {
+      "type": "belongsTo",
+      "model": "schema",
+      "foreignKey": "scheduleparamschemaId"
     }
   },
   "acls": [
@@ -35,7 +35,13 @@
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": "insertConfig"
+      "property": "getAgents"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "insertAgent"
     }
   ],
   "methods": {}

@@ -1,7 +1,8 @@
 var helpers = require('../helpers.js');
 var app = require('../../server/server');
-var Validator = require('schema-validator');
+var Validator = require('jsonschema').Validator;
 var loopback = require('loopback');
+var requestify = require('requestify');
 
 module.exports = function(State) {
   // hinding all remote methods
@@ -15,13 +16,15 @@ module.exports = function(State) {
     // retrieve current state schema
     app.models.Context.findOne({where: {ownerId: accessToken.userId}, include: ['scheduler']}, function(err, context) {
       if(context != null) {
-        app.models.stateschema.findOne({where: {statechemaId: context.scheduler().statechemaId}}, function(err, stateschema) {
+        app.models.schema.findOne({where: {id: context.scheduler().statechemaId}}, function(err, stateschema) {
           if(stateschema != null) {
-            var validator = new Validator(stateschema.schema);
-            var check = validator.check(state);
-            if(!check._error) {
-              State.create({ownerId: accessToken.userId, stateschemaId: stateschema.id, vars: state}, function(err, state) {
+            var validator = new Validator();
+            var check = validator.validate(state, stateschema.schema);
+            if(check.errors.length === 0) {
+              State.create({ownerId: accessToken.userId, schemaId: stateschema.id, vars: state}, function(err, state) {
                 app.models.User.setCurrentState(state.id, cb);
+                var url = context.scheduler().path;
+                requestify.post(url + '/clients/setState', {state: state.vars, userId: accessToken.userId});
               });
             } else {
               cb(helpers.STATE_INSERTION_FAILED, {});
