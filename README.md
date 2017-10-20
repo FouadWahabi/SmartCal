@@ -6,7 +6,7 @@ SmartCall is an AI platform for creating intelligent task scheduler applications
 
 First download the project :
 
-    $ git clone https://github.com/SmartCal/SmartCal smartcall_core
+    $ git clone https://github.com/FouadWahabi/SmartCal smartcall_core
 
 Once downloaded the projects, you're just a few steps away from starting working with `SmartCall`.
 
